@@ -1,91 +1,97 @@
-import datetime
 import os
-import subprocess
 import time
 
+import winsound
 from selenium import webdriver
 
-from selenium.common.exceptions import WebDriverException, NoSuchElementException, TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 if __name__ == '__main__':
-    dir_path = os.path.dirname(os.path.realpath(__file__))
-    sound_path = os.path.join(dir_path, 'alarm.mp3')
     counter = 0
     test = False
-    #driver = webdriver.Chrome(
-     #   '/Users/alpcemkizilkaya/Downloads/chromedriver')  # Optional argument, if not specified will search path.
-    driver = webdriver.Firefox(executable_path='/Users/alpcemkizilkaya/Downloads/geckodriver')
     while not test:
-
-        driver.get('https://otv.verwalt-berlin.de/ams/TerminBuchen')
-        time.sleep(10)  # Let the user actually see something!
-        book_link = WebDriverWait(driver, 60).until(
-            EC.element_to_be_clickable((By.XPATH, '/html/body/div[2]/div[2]/div[5]/form/div/div/div/div/div/div/div/div/div/div[1]/div[1]/div[2]/a')))
-        book_link.click()
-
-        allow_check = WebDriverWait(driver, 60).until(
-            EC.element_to_be_clickable((By.XPATH,
-                                        '/html/body/div[2]/div[2]/div[5]/div[2]/form/div[2]/div/div[2]/div[4]/div[1]/div[4]/input')))
-        allow_check.click()
-        go_to_params_page = WebDriverWait(driver, 60).until(
-            EC.element_to_be_clickable((By.XPATH,
-                                        '/html/body/div[2]/div[2]/div[5]/div[2]/form/div[5]/button')))
-        go_to_params_page.click()
-        time.sleep(60)
-        select_nationality = WebDriverWait(driver, 60).until(
-            EC.element_to_be_clickable((By.XPATH, '/html/body/div[2]/div[2]/div[5]/div[2]/form/div[2]/div/div[2]/div[8]/div[1]/div[2]/div[1]/fieldset/div[2]/select')))
-        Select(select_nationality).select_by_value('163')
-        time.sleep(1)
-        select_persons = WebDriverWait(driver, 60).until(
-            EC.element_to_be_clickable((By.XPATH,
-                                            '/html/body/div[2]/div[2]/div[5]/div[2]/form/div[2]/div/div[2]/div[8]/div[1]/div[2]/div[1]/fieldset/div[3]/div[1]/div[1]/select')))
-        Select(select_persons).select_by_value('3')
-        time.sleep(1)
-        confirm_family_in_berlin = WebDriverWait(driver, 60).until(
-            EC.element_to_be_clickable((By.XPATH,
-                        '/html/body/div[2]/div[2]/div[5]/div[2]/form/div[2]/div/div[2]/div[8]/div[1]/div[2]/div[1]/fieldset/div[4]/select')))
-        Select(confirm_family_in_berlin).select_by_value('1')
-        time.sleep(1)
-        family_nationality = WebDriverWait(driver, 60).until(
-            EC.element_to_be_clickable((By.XPATH,
-                                                        '/html/body/div[2]/div[2]/div[5]/div[2]/form/div[2]/div/div[2]/div[8]/div[1]/div[2]/div[1]/fieldset/div[5]/select')))
-        Select(family_nationality).select_by_value('163-0')
-        time.sleep(1)
-        apply_residence_title = WebDriverWait(driver, 60).until(
-            EC.element_to_be_clickable((By.XPATH,
-                                                    '/html/body/div[2]/div[2]/div[5]/div[2]/form/div[2]/div/div[2]/div[8]/div[1]/div[2]/div[1]/fieldset/div[9]/div[1]/div[1]/div[1]/div[1]/label/p')))
-        apply_residence_title.click()
-
-        economic_act = WebDriverWait(driver, 60).until(
-            EC.element_to_be_clickable((By.XPATH,
-                                           '/html/body/div[2]/div[2]/div[5]/div[2]/form/div[2]/div/div[2]/div[8]/div[1]/div[2]/div[1]/fieldset/div[9]/div[1]/div[1]/div[1]/div[6]/div/div[3]/label/p')))
-        economic_act.click()
-
-        blue_card = WebDriverWait(driver, 60).until(
-            EC.element_to_be_clickable((By.XPATH,
-                                        '/html/body/div[2]/div[2]/div[5]/div[2]/form/div[2]/div/div[2]/div[8]/div[1]/div[2]/div[1]/fieldset/div[9]/div[1]/div[1]/div[1]/div[6]/div/div[4]/div/div[11]/input')))
-        blue_card.click()
-        submit_button = WebDriverWait(driver, 60).until(
-            EC.element_to_be_clickable((By.XPATH, '/html/body/div[2]/div[2]/div[5]/div[2]/form/div[5]/button')))
-
-        submit_button.click()
-
+        #os.chdir("C:\\Program Files\\NordVPN")
+        #proc = subprocess.Popen('nordvpn -c', stdin=subprocess.PIPE, stdout=subprocess.PIPE,shell=True)
+        os.chdir(os.path.dirname(os.path.realpath(__file__)))
+        options = webdriver.ChromeOptions()
+        options.add_argument("--disable-blink-features")
+        options.add_argument("--disable-blink-features=AutomationControlled")
+        options.add_experimental_option("excludeSwitches", ["enable-automation"])
+        options.add_experimental_option('useAutomationExtension', False)
+        driver = webdriver.Chrome(options=options, executable_path='C:\\Users\\kizil\\PycharmProjects\\chromedriver.exe')
         try:
-            time.sleep(45)
-            WebDriverWait(driver, 60).until(
-                EC.visibility_of_element_located((By.XPATH, '/html/body/div[2]/div[2]/div[4]/ul/li')))
-            counter = counter + 1
-            print("failed count :", counter,"time :",str(datetime.datetime.now()))
+            driver.get('https://otv.verwalt-berlin.de/ams/TerminBuchen')
+            time.sleep(2)
+            book_link = WebDriverWait(driver, 60).until(
+                EC.element_to_be_clickable((By.XPATH,
+                                            '/html/body/div[2]/div[2]/div[4]/form/div/div/div/div/div/div/div/div/div/div[1]/div[1]/div[2]/a')))
+            book_link.click()
+            time.sleep(2)
+            allow_check = WebDriverWait(driver, 60).until(
+                EC.element_to_be_clickable((By.XPATH,
+                                            '//*[@id="xi-cb-1"]')))
+            allow_check.click()
+            go_to_params_page = WebDriverWait(driver, 60).until(
+                EC.element_to_be_clickable((By.XPATH,
+                                            '//*[@id="applicationForm:managedForm:proceed"]')))
+            go_to_params_page.click()
+            time.sleep(10)
+            select_nationality = WebDriverWait(driver, 60).until(
+                EC.element_to_be_clickable((By.XPATH, '//*[@id="xi-sel-400"]')))
+            Select(select_nationality).select_by_value('163')
+            time.sleep(1)
+            select_persons = WebDriverWait(driver, 60).until(
+                EC.element_to_be_clickable((By.XPATH,
+                                                '//*[@id="xi-sel-422"]')))
+            Select(select_persons).select_by_value('2')
+            time.sleep(1)
+            confirm_family_in_berlin = WebDriverWait(driver, 60).until(
+                EC.element_to_be_clickable((By.XPATH,
+                            '//*[@id="xi-sel-427"]')))
+            Select(confirm_family_in_berlin).select_by_value('1')
+            time.sleep(1)
+            family_nationality = WebDriverWait(driver, 60).until(
+                EC.element_to_be_clickable((By.XPATH,
+                                                            '//*[@id="xi-sel-428"]')))
+            Select(family_nationality).select_by_value('163-0')
+            time.sleep(1)
 
-        except (NoSuchElementException,TimeoutException) as e:
-            print(str(e))
-            print("success on count :", counter,str(datetime.datetime.now()))
-            test = True
-            print(driver.current_url)
-            subprocess.Popen(["afplay", sound_path])
-            time.sleep(300)
-    driver.quit()
+
+            apply_residence_title = WebDriverWait(driver, 60).until(
+                EC.element_to_be_clickable((By.XPATH,
+                                                        '/html/body/div[2]/div[2]/div[4]/div[2]/form/div[2]/div/div[2]/div[8]/div[2]/div[2]/div[1]/fieldset/div[8]/div[1]/div[1]/div[1]/div[1]/label/p')))
+            apply_residence_title.click()
+
+            economic_act = WebDriverWait(driver, 60).until(
+                EC.element_to_be_clickable((By.XPATH,
+                                               '/html/body/div[2]/div[2]/div[4]/div[2]/form/div[2]/div/div[2]/div[8]/div[2]/div[2]/div[1]/fieldset/div[8]/div[1]/div[1]/div[1]/div[6]/div/div[1]/label')))
+            economic_act.click()
+
+            blue_card = WebDriverWait(driver, 60).until(
+                EC.element_to_be_clickable((By.XPATH,
+                                            '//*[@id="SERVICEWAHL_DE163-0-1-3-305244"]')))
+            blue_card.click()
+            submit_button = WebDriverWait(driver, 60).until(
+                EC.element_to_be_clickable((By.XPATH,
+                                            '//*[@id="applicationForm:managedForm:proceed"]')))
+
+            submit_button.click()
+
+            time.sleep(10)
+            free_time = driver.find_elements(By.CLASS_NAME,
+                                             value='errorMessage')
+            if len(free_time) == 0:
+                free_time[0].click()
+                test = True
+                winsound.Beep(1000, 20000)
+                time.sleep(60)
+                print("XXXXXXXXX_DATA_XXXXXXXXX")
+
+        except Exception as e:
+            print(e)
+        counter = counter + 1
+        print(f'try count: {counter}')
+        driver.quit()
